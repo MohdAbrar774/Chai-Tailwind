@@ -47,11 +47,45 @@
 
         const classArr = [...ele.classList];
 
-        classArr.forEach((classs) => {
-            if (classs.startsWith("chai") && cssStyles[classs]) {
-                Object.assign(ele.style, cssStyles[classs]);
-                ele.classList.remove(classs);
+        classArr.forEach((cls) => {
+
+            // Static styles
+            if (cls.startsWith("chai") && cssStyles[cls]) {
+                Object.assign(ele.style, cssStyles[cls]);
+                ele.classList.remove(cls);
             }
+
+            // Dynamic Padding
+            if (cls.startsWith("chai-p-")) {
+                const value = cls.split("-")[2];
+
+                ele.style.padding = `${value}px`;
+
+                ele.classList.remove(cls);
+            }
+
+            // Dynamic Margin
+            if (cls.startsWith("chai-m-")) {
+                const value = cls.split("-")[2];
+
+                ele.style.margin = `${value}px`;
+
+                ele.classList.remove(cls);
+            }
+
+
+            // Dynamic Font Size  
+            if (cls.startsWith("chai-text-")) {
+                const value = cls.split("-")[2];
+
+                // ignore text-center
+                if (!isNaN(value)) {
+                    ele.style.fontSize = `${value}px`;
+
+                    ele.classList.remove(cls);
+                }
+            }
+
         })
     }
 
